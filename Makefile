@@ -3,7 +3,10 @@ PLATFORM=/usr/lib/android-sdk/platforms/android-23/android.jar
 MINSDK=19
 APP=src/coffee/source/helloworld
 
-CLASSES=$(patsubst %.java,%.class,$(wildcard $(APP)/*.java))
+CLASSES:=$(wildcard $(APP)/*.kt)
+CLASSES:=$(patsubst %.kt,%.class,$(CLASSES))
+CLASSES:=$(patsubst src/%,obj/%,$(CLASSES))
+obj:=$(word 1,$(CLASSES))
 
 # Resources:
 # https://www.hanshq.net/command-line-android.html
@@ -22,16 +25,21 @@ helloworld.unsigned.apk: dex/classes.dex AndroidManifest.xml
 
 dex/classes.dex: $(CLASSES)
 	[ -e dex ] || mkdir dex
-	$(ANDROIDSDK)/dx --dex --verbose --min-sdk-version=$(MINSDK) --output=$@ src
+	$(ANDROIDSDK)/dx --dex --verbose --min-sdk-version=$(MINSDK) --output=$@ \
+	    obj
 
-$(APP)/HelloWorld.class: $(APP)/*.java $(APP)/R.java
-	javac -bootclasspath $(PLATFORM) -classpath src -source 1.7 -target 1.7 $^
+$(obj): $(APP)/*.kt $(APP)/R.java
+	echo $@
+	kotlinc -no-jdk -classpath src:$(PLATFORM) -d obj -jvm-target 1.8 $^
+	javac -bootclasspath $(PLATFORM) -classpath src -source 1.8 -target 1.8 \
+	      $(filter %.java,$^)
 
 $(APP)/R.java: AndroidManifest.xml res/*
 	aapt package -f -m -J src -S res -M AndroidManifest.xml -I $(PLATFORM)
 
 clean:
 	rm -vf	$(APP)/R.java \
+		obj/$(APP)/*.class \
 		$(APP)/*.class \
 		*.unsigned.apk \
 		*.aligned.apk \

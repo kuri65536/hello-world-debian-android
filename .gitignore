@@ -3,3 +3,5 @@
 *.dex
 *.jks
 R.java
+obj
+
