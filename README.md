@@ -1,6 +1,14 @@
 # Debian Android Hello World
 A very simple "Hello World" program for Android, designed to be built with tools included in Debian Buster, and nothing else.
 
+## kotlin branch by kuri65536
+Thanks [Coffee](https://gitlab.com/Matrixcoffee) and
+[Stack Overflow] (via archive.org),  
+This project can be build with kotlin.
+
+[Stack Overflow]: https://web.archive.org/web/20170531194147/https://stackoverflow.com/questions/33843753/compile-mixed-kotlin-and-java-code-from-the-command-line
+
+
 ## What is this?
 
 It's a demo Android app that displays the text "Hello World".
@@ -49,3 +57,46 @@ This software is is licensed under the CC0 license, meaning that to the extent p
 This software is offered as-is, and the author makes no representations or warranties of any kind concerning the software, express, implied, statutory or otherwise, including without limitation warranties of title, merchantability, fitness for a particular purpose, non infringement, or the absence of latent or other defects, accuracy, or the present or absence of errors, whether or not discoverable, all to the greatest extent permissible under applicable law.
 
 The above is a summary; the full license can be found in the file called [LICENSE](LICENSE), or at [the creative commons website](https://creativecommons.org/publicdomain/zero/1.0/legalcode.txt).
+
+
+## step-by-step instructions for kotlin (by kuri65536)
+0. (Android) install Debian on Android
+
+    `sudo apt install zip`
+
+1. install openjdk
+
+    `sudo apt install openjdk-11-*`
+
+2. install android-sdk
+
+    `sudo apt install android-sdk android-sdk-platform-23`
+
+3. install sdkman! and setup.
+
+    - `curl -s https://get.sdkman.io | bash`
+    - `. /home/shinji/.sdkman/bin/sdkman-init.sh`
+
+4. install kotlinc
+
+    - `sdk install kotlin`
+
+5. get this repo.
+
+    - `git clone https://github.com/kuri65536/hello-world-debian-android.git`
+
+6. build it, then you can see `hello-world.apk` .
+
+    - `cd hello-world-debian-android`
+    - `make`
+
+7. (optional) get apk from Android and install it.
+
+    there are several way of share the apk to Android side:
+
+    - serve the apk with webdav and got from Android app (File Manager and etc).
+    - serve the apk with samba and got from Android app (File Manger and etc).
+    - serve the apk with ssh and got from Android Terminal clients.
+    - serve the apk with ftp and got from Android FTP clients.
+
+
